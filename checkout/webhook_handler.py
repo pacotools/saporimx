@@ -28,5 +28,8 @@ class StripeWH_Handler:
         Handle the payment_intent.payment_failed webhook from Stripe
         """
         return HttpResponse(
+            # Test to confirm if the webhook is working (12. Stripe Part 12)
+            # content=f'Payment Failed Webhook received: {event["type"]}',
+
             content=f'Webhook received: {event["type"]}',
             status=200)
