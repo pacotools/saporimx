@@ -27,18 +27,16 @@ class Order(models.Model):
     discount = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
     observations = models.CharField(max_length=80, null=True, editable=True)
     delivery_type = models.CharField(max_length=10, null=True, editable=True)
+    original_bag = models.TextField(null=False, blank=False, default='')
+    stripe_pid = models.CharField(max_length=254, null=False, blank=False, default='')
 
     def _generate_order_number(self):
-        """
-        Generate a random, unique order number using UUID
-        """
+        # Generate a random, unique order number using UUID
         return uuid.uuid4().hex.upper()
 
     def update_total(self):
-        """
-        Update grand total each time a line item is added,
-        accounting for delivery costs.
-        """
+        # Update grand total each time a line item is added,
+        # accounting for delivery costs.
 
         # 'or 0' will prevent an error if we manually delete all the line items from an order by making sure
         # that this sets the order total to zero instead of none
@@ -50,11 +48,10 @@ class Order(models.Model):
         self.grand_total = self.order_total + self.delivery_cost
         self.save()
 
-    def save(self, *args, **kwargs):
-        """
-        Override the original save method to set the order number
-        if it hasn't been set already.
-        """
+    def save(self, *args, **kwargs):        
+        # Override the original save method to set the order number
+        # if it hasn't been set already.
+
         if not self.order_number:
             self.order_number = self._generate_order_number()
         super().save(*args, **kwargs)
@@ -74,10 +71,9 @@ class OrderLineItem(models.Model):
     observations = models.CharField(max_length=80, null=True, editable=True)
 
     def save(self, *args, **kwargs):
-        """
-        Override the original save method to set the lineitem total
-        and update the order total.
-        """
+        # Override the original save method to set the lineitem total
+        # and update the order total.
+
         self.lineitem_total = self.product.price * self.quantity
         super().save(*args, **kwargs)
 
