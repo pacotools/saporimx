@@ -1,3 +1,5 @@
+<!-- make the same changes on every other template in the account folder: account_inactive, email_confirm ... etc  -->
+
 {% extends "account/base.html" %}
 
 {% load i18n %}
@@ -5,9 +7,14 @@
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
-{% block content %}
+<!-- rename its content block to inner_content (base.html) -->
+{% block inner_content %}
 
-<h1>{% trans "Sign In" %}</h1>
+<!-- I'll adjust the header slightly by making it an h2 giving it our own classes and adding a couple
+    horizontal rules around it -->
+<hr>
+<h2 class="logo-font mb-4">{% trans "Sign In" %}</h2>
+<hr>
 
 {% get_providers as socialaccount_providers %}
 
@@ -35,12 +42,20 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
 <form class="login" method="POST" action="{% url 'account_login' %}">
   {% csrf_token %}
-  {{ form.as_p }}
+
+  <!-- We can use crispy forms to render the form instead of rendering it as a paragraph -->
+  {{ form|crispy }}
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+
+  <!-- I'll add a home button and wrap the forgot password link in a paragraph. -->
+  <a class="btn btn-outline-black rounded-0" href="{% url 'home' %}">Home</a>
+
   <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
+  <p class="mt-2">
+    <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+  </p>
 </form>
 
 {% endblock %}

@@ -7,10 +7,17 @@ from django.conf import settings
 from django_countries.fields import CountryField
 
 from products.models import Product
+from profiles.models import UserProfile
 
+
+# We'll use models.SET_NULL if the profile is deleted since that will allows us to keep an order history
+# in the admin even if the user is deleted, and will also allow this to be either null or blank so that
+# users who don't have an account can still make purchases.
+# I'll add a related_name of orders so we can access the users orders by calling something like user.user.profile.orders 
 
 class Order(models.Model):
     order_number = models.CharField(max_length=32, null=False, editable=False)
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True, blank=True, related_name='orders')
     full_name = models.CharField(max_length=50, null=False, blank=False)
     email = models.EmailField(max_length=254, null=False, blank=False)
     phone_number = models.CharField(max_length=20, null=False, blank=False)
