@@ -9,10 +9,10 @@ from checkout.models import Order
 
 @login_required
 def profile(request):
-    # Display the user's profile returning a profile.html template with a context.
-    # I'll use the profile and the related name on the order model to get the users
-    # orders and return those to the template instead.
-    
+    # Display the user's profile returning a profile.html template with a
+    # context. I'll use the profile and the related name on the order model
+    # to get the users orders and return those to the template instead.
+
     profile = get_object_or_404(UserProfile, user=request.user)
 
     if request.method == 'POST':
@@ -28,8 +28,9 @@ def profile(request):
         form = UserProfileForm(instance=profile)
     orders = profile.orders.all()
 
-    # When we get the success message it has the bag information in it so I'm going to add another context variable
-    # called on_profile_page and we're checking at "success template in toast folder"
+    # When we get the success message it has the bag information in it so I'm
+    # going to add another context variable called on_profile_page and we're
+    # checking at "success template in toast folder"
     template = 'profiles/profile.html'
     context = {
         'form': form,
