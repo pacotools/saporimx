@@ -9,6 +9,7 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = '__all__'
 
+    # Replace the image field on the form with the new one which utilizes the widget
     image = forms.ImageField(label='Image',
                              required=False,
                              widget=CustomClearableFileInput)
