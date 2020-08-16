@@ -11,11 +11,12 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
+import dj_database_url
 
-#from pathlib import Path
+# from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-#BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+# BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
@@ -78,8 +79,9 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request', # required by allauth
-                'django.contrib.auth.context_processors.auth', 
+                # required by allauth
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
                 'bag.contexts.bag_contents',
@@ -126,6 +128,18 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# if 'DATABASE_URL' in os.environ:
+# DATABASES = {
+#    'default': dj_database_url.parse('postgres://aswmlnkmsoqqvo:47b39aeb946a30acf1ca289b4241b5ebd714e400d744a41b2fdf5c470d5d9231@ec2-18-211-48-247.compute-1.amazonaws.com:5432/d3k6c53gcktm60')
+#}
+# else:
+#    DATABASES = {
+#        'default': {
+#            'ENGINE': 'django.db.backends.sqlite3',
+#            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#        }
+#    }
 
 
 # Password validation
