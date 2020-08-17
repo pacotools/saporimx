@@ -28,7 +28,7 @@ SECRET_KEY = '8w1!v5m-b8l^#6rd6h$l@c)&9xb5au)fq1cduj+!laa*1!(h_='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['sapori.herokuapp.com', 'localhost']
 
 
 # Application definition
@@ -122,24 +122,17 @@ WSGI_APPLICATION = 'saporimx.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {
+        'default': dj_database_url.parse('DATABASE_URL')
     }
-}
-
-# if 'DATABASE_URL' in os.environ:
-# DATABASES = {
-#    'default': dj_database_url.parse('postgres://aswmlnkmsoqqvo:47b39aeb946a30acf1ca289b4241b5ebd714e400d744a41b2fdf5c470d5d9231@ec2-18-211-48-247.compute-1.amazonaws.com:5432/d3k6c53gcktm60')
-#}
-# else:
-#    DATABASES = {
-#        'default': {
-#            'ENGINE': 'django.db.backends.sqlite3',
-#            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#        }
-#    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 
 # Password validation
